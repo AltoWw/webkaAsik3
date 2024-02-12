@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Converter</title>
+</head>
+<body>
+  <h1>Currency Converter</h1>
+
+  <div>
+    <h2>Exchange Rates</h2>
+    <ul>
+      <% Object.entries(data.rates).forEach(([currency, rate]) => { %>
+        <li><%= currency %>: <%= rate %></li>
+      <% }); %>
+    </ul>
+  </div>
+
+  <div>
+    <h2>Base Currency</h2>
+    <p><strong><%= data.base %></strong></p>
+  </div>
+</body>
+</html>

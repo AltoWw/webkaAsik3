@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit User</title>
+</head>
+<body>
+    <h1>Edit User: <%= user.username %></h1>
+    
+    <form method="post" action="/admin/edit-user-save">
+        <input type="hidden" name="usernameToEdit" value="<%= user.username %>">
+        
+        <label for="newUsername">New Username:</label>
+        <input type="text" id="newUsername" name="newUsername" value="<%= user.username %>" required>
+        
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" name="newPassword" required>
+        
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <a href="/admin">Back to Admin Panel</a>
+</body>
+</html>
