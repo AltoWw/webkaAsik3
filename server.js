@@ -204,13 +204,15 @@ async function callApi(apiUrl, apiKey, apiName) {
 }
 
 app.get('/', (req, res) => {
-    const data = {
-        weatherResults: '',
-        nasaResults: '<p>NASA data goes here</p>',
-        exchangeRatesResults: '<p>Exchange rates data goes here</p>',
-    };
-    
-    res.render('index', { data });
+  const data = {
+    weatherResults: '',
+    nasaResults: '<p>NASA data goes here</p>',
+    exchangeRatesResults: '<p>Exchange rates data goes here</p>',
+  };
+
+  const isAdmin = req.session.isAdmin || false;
+
+  res.render('index', { data, isAdmin });
 });
 
 app.get("/weather", function (req, res) {
@@ -235,7 +237,7 @@ app.get("/weather", function (req, res) {
 
 app.get('/nasa', async (req, res) => {
     try {
-        const apiKey = '28sNWPHuFL8zTXysMbFACrcJ9MelAkAL0iMx7GMV';
+        const apiKey = 'smGR4v4aOPYqNbv7uTk9wlsIFyTjbmdoMLTC9aCd';
         const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=2024-01-24`;
         const apiData = await callApi(apiUrl, apiKey, 'NASA');
         res.render('nasa', { data: apiData });

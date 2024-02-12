@@ -1,46 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel</title>
-</head>
-<body>
-    <h1>Welcome <%= username %> to the Admin Panel</h1>
-    
-    <h2>User List:</h2>
-    <ul>
-        <% users.forEach(user => { %>
-            <li>
-                <%= user.username %> (<%= user.isAdmin ? 'Admin' : 'User' %>)
-                <div class="action-buttons">
-                    <form method="post" action="/admin/edit-user">
-                        <input type="hidden" name="usernameToEdit" value="<%= user.username %>">
-                        <button type="submit">Edit</button>
-                    </form>
-                    <button onclick="confirmRemove('<%= user.username %>')">Remove</button>
-                </div>
-            </li>
-        <% }); %>
-    </ul>
-    <h2>Add New User:</h2>
-    <form method="post" action="/admin/add-user">
-        <label for="newUsername">New User's Username:</label>
-        <input type="text" id="newUsername" name="newUsername" required>
-        <label for="newPassword">New User's Password:</label>
-        <input type="password" id="newPassword" name="newPassword" required>
-        <button type="submit">Add User</button>
-    </form>
 
-    <a href="/logout">Logout</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1>Welcome to the Admin Panel</h1>
+
+        <h2>User List:</h2>
+        <ul class="list-group">
+            <% users.forEach(user => { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <%= user.username %> (<%= user.isAdmin ? 'Admin' : 'User' %>)
+                    <div class="action-buttons">
+                        <form method="post" action="/admin/edit-user">
+                            <input type="hidden" name="usernameToEdit" value="<%= user.username %>">
+                            <button type="submit" class="btn btn-sm btn-info">Edit</button>
+                        </form>
+                        <button onclick="confirmRemove('<%= user.username %>')" class="btn btn-sm btn-danger">Remove</button>
+                    </div>
+                </li>
+            <% }); %>
+        </ul>
+
+        <h2>Add New User:</h2>
+        <form method="post" action="/admin/add-user">
+            <div class="form-group">
+                <label for="newUsername">New User's Username:</label>
+                <input type="text" id="newUsername" name="newUsername" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">New User's Password:</label>
+                <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add User</button>
+        </form>
+
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
 
     <script>
         function confirmRemove(username) {
             const isConfirmed = confirm(`Are you sure you want to remove the user '${username}'?`);
             if (isConfirmed) {
-                document.querySelector(`form[action='/admin/remove-user'][value='${username}']`).submit();
+                const form = document.createElement('form');
+                form.method = 'post';
+                form.action = '/admin/remove-user';
+    
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'usernameToRemove';
+                input.value = username;
+    
+                form.appendChild(input);
+                document.body.appendChild(form);
+    
+                form.submit();
             }
         }
     </script>
 </body>
+
 </html>
